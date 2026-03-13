@@ -1,0 +1,1 @@
+# Infrastructure configuration for AICredits microservices architecture
