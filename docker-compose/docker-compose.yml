@@ -43,21 +43,21 @@ services:
       start_period: 240s
 
 
-  #discovery-service:
-  #  build:
-  #    context: ../../discovery-service
-  #    dockerfile: Dockerfile
-  #  container_name: aicredits-eureka
-  #  ports:
-  #    - "${EUREKA_PORT:-8761}:8761"
-  #  networks: [aicredits-network]
-  #  restart: unless-stopped
-  #  healthcheck:
-  #    test: ["CMD-SHELL", "curl -sf http://localhost:8761/actuator/health || exit 1"]
-  #    interval: 20s
-  #    timeout: 5s
-  #    retries: 5
-  #    start_period: 30s
+  discovery-service:
+    build:
+      context: ../../discovery-service
+      dockerfile: Dockerfile
+    container_name: aicredits-eureka
+    ports:
+      - "${EUREKA_PORT:-8761}:8761"
+    networks: [aicredits-network]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8761/actuator/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
 
   postgres-users:
@@ -67,16 +67,16 @@ services:
       - "${DB_PORT_USERS:-5432}:5432"
     environment:
       POSTGRES_DB:       utilisateurs_db
-      POSTGRES_USER:     ${POSTGRES_USER:-pfe}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pfe2026}
+      POSTGRES_USER:     ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-admin1234}
       PGDATA:            /var/lib/postgresql/data/pgdata
     volumes:
       - pgdata-users:/var/lib/postgresql/data
-      - ../database/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../database/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql
     networks: [aicredits-network]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pfe} -d utilisateurs_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d utilisateurs_db"]
       interval: 10s
       timeout: 5s
       retries: 5
