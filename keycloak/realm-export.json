@@ -1,0 +1,89 @@
+{
+  "realm": "pfe-realm",
+  "displayName": "CreditAI Platform",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+
+  "accessTokenLifespan": 3600,
+  "refreshTokenMaxReuse": 0,
+  "ssoSessionMaxLifespan": 36000,
+  "offlineSessionMaxLifespanEnabled": false,
+
+  "clients": [
+    {
+      "clientId": "pfe-frontend",
+      "name": "CreditAI Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:4200/*",
+        "https://creditai.talan.tn/*"
+      ],
+      "webOrigins": [
+        "http://localhost:4200",
+        "https://creditai.talan.tn"
+      ],
+      "defaultClientScopes": ["web-origins", "profile", "roles", "email"],
+      "attributes": {
+        "access.token.lifespan": "3600"
+      }
+    },
+    {
+      "clientId": "pfe-backend",
+      "name": "CreditAI Backend Services",
+      "enabled": true,
+      "publicClient": false,
+      "bearerOnly": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false
+    }
+  ],
+
+  "roles": {
+    "realm": [
+      {
+        "name": "ROLE_CLIENT",
+        "description": "Client bancaire — soumet et suit ses demandes de crédit"
+      },
+      {
+        "name": "ROLE_CONSEILLER",
+        "description": "Conseiller bancaire — analyse et valide les dossiers"
+      },
+      {
+        "name": "ROLE_ADMIN",
+        "description": "Administrateur — configure et supervise la plateforme"
+      }
+    ]
+  },
+
+  "defaultRoles": ["ROLE_CLIENT"],
+
+  "passwordPolicy": "length(8) and digits(1) and lowerCase(1) and upperCase(1)",
+
+  "smtpServer": {
+    "host": "",
+    "port": "587",
+    "from": "noreply@creditai.talan.tn",
+    "fromDisplayName": "CreditAI Platform",
+    "ssl": "false",
+    "starttls": "true"
+  },
+
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak",
+  "adminTheme": "keycloak",
+  "emailTheme": "keycloak",
+
+  "internationalizationEnabled": true,
+  "supportedLocales": ["fr", "en", "ar"],
+  "defaultLocale": "fr"
+}

@@ -1,0 +1,50 @@
+{
+  "title": "CreditAI — Vue d'ensemble",
+  "uid":   "creditai-overview",
+  "tags":  ["pfe", "creditai"],
+  "timezone": "browser",
+  "refresh": "30s",
+  "panels": [
+    {
+      "id":    1,
+      "title": "Requêtes par seconde — Gateway",
+      "type":  "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+      "targets": [{
+        "expr": "rate(http_server_requests_seconds_count{job='api-gateway'}[1m])",
+        "legendFormat": "req/s"
+      }]
+    },
+    {
+      "id":    2,
+      "title": "Latence moyenne — Scoring",
+      "type":  "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 6, "y": 0},
+      "targets": [{
+        "expr": "rate(http_request_duration_seconds_sum{job='scoring-service'}[5m]) / rate(http_request_duration_seconds_count{job='scoring-service'}[5m])",
+        "legendFormat": "latence moy."
+      }]
+    },
+    {
+      "id":    3,
+      "title": "Taux d'erreur 5xx",
+      "type":  "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 12, "y": 0},
+      "targets": [{
+        "expr": "rate(http_server_requests_seconds_count{status=~'5..'}[5m])",
+        "legendFormat": "erreurs/s"
+      }]
+    },
+    {
+      "id":    4,
+      "title": "Connexions BDD actives",
+      "type":  "stat",
+      "gridPos": {"h": 4, "w": 6, "x": 18, "y": 0},
+      "targets": [{
+        "expr": "hikaricp_connections_active",
+        "legendFormat": "{{pool}}"
+      }]
+    }
+  ],
+  "schemaVersion": 38
+}
